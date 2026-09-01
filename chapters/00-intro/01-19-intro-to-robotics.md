@@ -1,11 +1,18 @@
 # What is a Robot?
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tF4DML7FIWk" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; " allowfullscreen></iframe>
+<section>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4lSQnrMC6nY?si=keLXFm9xuGuIbjr7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Zn8yMaepzVk?si=TzjLVM6LGldcbJ0J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/751GBaDJqEc?si=QbUbNwVFq5UwukDO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<!--iframe width="560" height="315" src="https://www.youtube.com/embed/tF4DML7FIWk" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media; " allowfullscreen></iframe>
 
   <div class="source">Boston Dynamics</div>
   <img src="01-19-intro-to-robotics_files/robot-manufacturing.png" 
     style="height:300px"
-    class="fragment"/>
+    class="fragment"/ -->
 </section>
 <section>
     <h2>Also a robot</h2>
@@ -65,7 +72,7 @@
   + Forward and inverse kinematics
 - Software and Hardware
   + Robot Operating System (ROS) <https://ros.org>
-  + NVIDIA Jetbot <https://jetbot.org>
+  + F1Tenth Car <https://roboracer.ai>
 - Control
   + LQR
   + PID Control
