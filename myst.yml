@@ -6,7 +6,7 @@ project:
   authors: 
     - name: Vikas Dhiman
   github:
-    wecacuee/ECE417-F25-Mobile-Robots
+    wecacuee/ECE417-F26-Mobile-Robots
   bibliography:
     - references.bib
   exports:
@@ -18,8 +18,6 @@ project:
       title: Mobile Robots
     - file: chapters/00-intro/01-19-intro-to-robotics.md
       title: What is a Robot?
-    - file: hw/00-prereq/0000-00-02-prereq-hw.md
-      title: Pre-requisite Review
     - file: chapters/01-py-intro/Python_1.ipynb
       children:
         - file: chapters/01-py-intro/Python_2.ipynb
