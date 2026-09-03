@@ -1,0 +1,16 @@
+
+{%- macro mathjax(url="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml-full.js") -%}
+<!-- Load mathjax --><!-- MathJax configuration -->
+<p><script>
+MathJax = {
+  tex: {
+    inlineMath: {'[+]': [['$', '$']]},
+    displayMath: {'[+]': [['$$', '$$']]}
+  }
+};
+</script></p>
+<p>
+<script defer="defer" src="{{url}}"></script>
+</p>
+<!-- End of mathjax configuration -->
+{%- endmacro %}
