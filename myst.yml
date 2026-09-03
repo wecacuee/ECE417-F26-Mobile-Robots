@@ -18,10 +18,13 @@ project:
       title: Mobile Robots
     - file: chapters/00-intro/01-19-intro-to-robotics.md
       title: What is a Robot?
-    - file: chapters/01-py-intro/Python_1.ipynb
+    - file: chapters/01-py-intro/ways-to-run-python.ipynb
+      title: Ways to Run Python
+    - file: chapters/01-py-intro/Python_3.ipynb
+      title: Python and Numpy
       children:
+        - file: chapters/01-py-intro/Python_1.ipynb
         - file: chapters/01-py-intro/Python_2.ipynb
-        - file: chapters/01-py-intro/Python_3.ipynb
     - file: chapters/01-1901-discrete-planning/Discrete Planning.ipynb
     - file: hw/01-1901-discrete-planning/HW2_BFSDijkstraAndPriorityQueue.ipynb
     - file: chapters/01-1901-discrete-planning/RRT.ipynb
