@@ -9,6 +9,7 @@ all: \
 	build-pdf/DiscretePlanning.pdf \
 	chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb \
 	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
+	chapters/01-1901-discrete-planning/exports/DiscretePlanning.pptx \
 	$(QUIZ_ZIPS)
 
 .SECONDARY:
@@ -31,6 +32,18 @@ build-html/%.html: chapters/01-py-intro/%.ipynb
 
 chapters/01-1901-discrete-planning/exports-%Colab.ipynb: chapters/01-1901-discrete-planning/%.ipynb
 	python3 scripts/export_ipynb_to_colab.py $<
+
+# Lecture-deck slides, built from the single-source-of-truth SLIDES list.
+chapters/01-1901-discrete-planning/exports/DiscretePlanning.pptx: \
+		chapters/01-1901-discrete-planning/deck/talk_content.py \
+		scripts/build_deck.py
+	mkdir -p "$(@D)"
+	python3 scripts/build_deck.py chapters/01-1901-discrete-planning/deck/talk_content.py "$@"
+
+chapters/01-1901-discrete-planning/deck/slides/index.html: \
+		chapters/01-1901-discrete-planning/deck/talk_content.py \
+		scripts/build_reveal.py
+	python3 scripts/build_reveal.py chapters/01-1901-discrete-planning/deck/talk_content.py
 
 chapters/045-layers-blocks-models/exports-%Colab.ipynb: chapters/045-layers-blocks-models/%.ipynb
 	python3 scripts/export_ipynb_to_colab.py $<

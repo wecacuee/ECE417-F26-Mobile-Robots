@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>deck</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="vendor/reveal/reset.css">
+<link rel="stylesheet" href="vendor/reveal/reveal.css">
+<link rel="stylesheet" href="vendor/reveal/theme/white.css">
+<style>
+:root{
+  --navy:#141F38; --navy-light:#243B64; --blue:#2E6FB8; --teal:#1E8A7A;
+  --orange:#E07A2C; --grey:#3A3F4B; --light-bg:#F5F6F8; --line-grey:#CED3DA;
+  --muted:#8A909C;
+}
+.reveal{font-family:'Calibri','Segoe UI',Helvetica,Arial,sans-serif;color:var(--grey);}
+.reveal .slides{text-align:left;}
+.reveal .slides section{padding-top:0.6em;}
+.reveal h1,.reveal h2,.reveal h3{font-family:inherit;text-transform:none;letter-spacing:0;}
+.reveal a{color:var(--blue);}
+
+.kicker{color:var(--orange);font-weight:700;font-size:.5em;letter-spacing:.06em;margin-bottom:.15em;}
+.reveal h2{color:var(--navy);font-size:1.35em;font-weight:700;margin:0 0 .1em 0;}
+.underline{width:70px;height:4px;background:var(--orange);margin:.15em 0 .5em 0;}
+
+.reveal ul.bullets{list-style:none;margin:0;padding:0;}
+.reveal ul.bullets li{position:relative;padding-left:1em;margin-bottom:.5em;font-size:.62em;line-height:1.3;}
+.reveal ul.bullets li::before{content:"\2022";position:absolute;left:0;color:var(--blue);}
+.reveal ul.bullets.wide li{font-size:.6em;margin-bottom:.55em;}
+.reveal ul.bullets.small li{font-size:.48em;margin-bottom:.3em;}
+.reveal ul.bullets.pubs li{font-size:.5em;margin-bottom:.55em;}
+
+.row{display:flex;gap:1.2em;align-items:flex-start;}
+.col-img{flex:0 0 34%;}
+.col-text{flex:1;}
+.col-img img,.bio-photo{width:100%;border-radius:4px;border:1px solid var(--line-grey);}
+
+.full-img-wrap{text-align:center;margin:.4em 0;}
+.full-img-wrap img{max-height:56vh;max-width:100%;border:1px solid var(--line-grey);}
+.caption{font-size:.42em;font-style:italic;color:var(--grey);text-align:center;}
+
+.lead{font-size:.5em;font-style:italic;color:var(--grey);margin:.3em 0 .6em 0;}
+.lead.center{text-align:center;}
+
+.pillars-row{display:flex;gap:.6em;margin-top:.6em;}
+.pillar-box{flex:1;color:#fff;border-radius:4px;padding:1em .8em;text-align:center;}
+.pillar-name{font-size:.7em;font-weight:700;white-space:pre-line;margin-bottom:.5em;}
+.pillar-desc{font-size:.42em;line-height:1.3;}
+.pillars-outcome{margin-top:.5em;background:var(--navy);color:#fff;text-align:center;
+  padding:.5em;border-radius:4px;font-weight:700;font-size:.55em;}
+
+.triad-row{display:flex;gap:.5em;margin-top:1em;}
+.triad-box{flex:1;background:var(--light-bg);border:2px solid;border-radius:4px;
+  padding-bottom:1em;position:relative;text-align:center;}
+.triad-top{height:6px;border-radius:2px 2px 0 0;}
+.triad-name{font-weight:700;font-size:.55em;margin:.6em .3em .5em .3em;white-space:pre-line;}
+.triad-desc{font-size:.4em;padding:0 .8em;line-height:1.3;color:var(--grey);}
+.triad-check{color:var(--teal);font-weight:700;font-size:.4em;margin-top:.6em;}
+
+.pipe-row{display:flex;align-items:center;margin-top:.8em;}
+.pipe-box{flex:1;color:#fff;border-radius:4px;padding:.9em .5em;text-align:center;min-height:6em;
+  display:flex;flex-direction:column;justify-content:center;}
+.pipe-num{color:#FFC87A;font-weight:700;font-size:.5em;margin-bottom:.4em;}
+.pipe-text{font-size:.36em;white-space:pre-line;line-height:1.25;font-weight:600;}
+.pipe-arrow{color:var(--navy);font-size:.5em;padding:0 .15em;}
+
+.video-row{display:flex;gap:.6em;margin-top:.5em;}
+.video-card{flex:1;text-align:center;}
+.video-card video{width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--line-grey);}
+.video-caption{font-weight:700;font-size:.42em;color:var(--navy);margin-top:.4em;}
+.video-src{display:block;font-size:.32em;color:var(--muted);margin-top:.15em;word-break:break-all;}
+
+.team-photos{display:flex;flex:0 0 40%;gap:.4em;}
+.team-photo{width:32%;border-radius:4px;border:1px solid var(--line-grey);object-fit:cover;aspect-ratio:1/1;}
+
+/* code slides */
+.code-row .col-code{flex:1.3;}
+.code-row .col-img{flex:0 0 32%;}
+pre.code-block{background:#1E2430;color:#E8EAED;border-radius:5px;padding:.5em .7em;
+  font-size:.40em;line-height:1.35;overflow:auto;max-height:56vh;}
+pre.code-block code{font-family:'Consolas','Menlo',monospace;white-space:pre;}
+p.colab-note{font-size:.36em;font-style:italic;color:var(--muted);margin-top:.4em;}
+
+/* gallery */
+.gallery-row{display:flex;gap:.5em;margin-top:.6em;flex-wrap:wrap;}
+.gallery-card{flex:1;min-width:20%;text-align:center;}
+.gallery-card img{width:100%;border:1px solid var(--line-grey);border-radius:4px;}
+.gallery-caption{font-size:.34em;color:var(--grey);margin-top:.3em;}
+
+/* demo slides */
+.s-demo{color:#fff;}
+.s-demo .kicker{color:#FFD9A8;}
+.s-demo h2{color:#fff;}
+.s-demo .bullets li{color:#fff;font-size:.6em;}
+.s-demo .bullets li::before{color:#FFD9A8;}
+.s-demo .col-img img{border:2px solid rgba(255,255,255,.5);}
+a.demo-link{display:inline-block;margin-top:.7em;background:var(--orange);color:#fff !important;
+  font-weight:700;font-size:.55em;padding:.5em 1em;border-radius:4px;text-decoration:none;}
+
+/* title / section / end slides */
+.s-title, .s-section{color:#fff;}
+.s-title h1{font-size:1.5em;font-weight:700;color:#fff;margin-bottom:.25em;}
+.s-title .subtitle{font-size:.65em;font-style:italic;color:#C9D3E6;margin:0 0 .5em 0;}
+.s-title .rule{width:90px;height:4px;background:var(--orange);margin-bottom:1.2em;}
+.s-title .footer-line{font-size:.5em;color:#C9D3E6;}
+.s-title .logo{
+position:absolute;bottom:.6em;right:.6em;height:1.3em;background-color:#fff}
+
+.s-section .rule-top{position:absolute;top:42%;left:0;right:0;height:3px;background:var(--orange);}
+.s-section .kicker{position:absolute;top:calc(42% - 1.6em);left:0;color:var(--orange);font-size:.5em;}
+.s-section h1{position:absolute;top:calc(42% + .5em);left:0;right:0;font-size:1.3em;font-weight:700;color:#fff;}
+
+.reveal .slide-number{color:var(--muted);background-color:#fff;}
+</style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+<section class="s-title" data-background-color="#141F38">
+  
+  <h1>Discrete Planning in Robotics</h1>
+  <p class="subtitle">Graphs, BFS, DFS, Dijkstra's algorithm, and A*</p>
+  <div class="rule"></div>
+  <p class="footer-line">ECE 417 — Mobile Robots  ·  Vikas Dhiman  ·  University of Maine</p>
+  <aside class="notes"><p>Today we're covering discrete planning: how to turn a robot's
+motion-planning problem into a graph search problem, and the four classic
+search algorithms — breadth-first search, depth-first search, Dijkstra's
+algorithm, and A* — that we can run on that graph. We'll also cover the
+computational-complexity tools (Big-O notation, heaps) needed to reason
+about how fast these algorithms are, and finish with how continuous
+(non-grid) spaces get converted into graphs, as a bridge to RRT next.</p></aside>
+</section>
+<section>
+  <h2>Required readings</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment"><a href="https://drive.google.com/file/d/1XoJtB9LVAn7zq5RulNDWCUQv4eOtppoq/view?usp=sharing" target="_blank" rel="noopener">Ch 7 and 23, Carmen's Intro to Algorithms</a></li>
+      <li class="fragment"><a href="https://www.khanacademy.org/computing/computer-science/algorithms/breadth-first-search/a/breadth-first-search-and-its-uses" target="_blank" rel="noopener">Breadth-first search and its uses — Khan Academy</a></li>
+      <li class="fragment"><a href="https://github.com/AtsushiSakai/PythonRobotics/tree/master#path-planning" target="_blank" rel="noopener">PythonRobotics/dijkstra.py</a></li>
+      <li class="fragment"><a href="https://lavalle.pl/planning/node35.html" target="_blank" rel="noopener">Discrete Planning — LaValle</a></li>
+      <li class="fragment"><a href="https://drive.google.com/file/d/1rOimmdudiyqI98VkkqDEHoclJUMCxJi0/view?usp=sharing" target="_blank" rel="noopener">3.5.2, Russell &amp; Norvig: Artificial Intelligence</a></li>
+    </ul>
+  <aside class="notes"><p>These are the assigned readings backing today's lecture — Carmen's
+chapters on graphs and heaps, a Khan Academy primer on BFS, the PythonRobotics
+reference implementation of Dijkstra, LaValle's planning notes, and the A*
+section of Russell &amp; Norvig. Skim these before the next class.</p></aside>
+</section>
+<section>
+  <h2>A planning problem, visually</h2><div class="underline"></div>
+  <div class="full-img-wrap"><img src="../../imgs/maze.png" alt=""></div>
+  <p class="caption">Find a path from the start to the goal without crossing a wall — the running example for today.</p>
+  <aside class="notes"><p>Here's the running example for the whole lecture: a maze. The
+robot has to find a path from a start cell to a goal cell without passing
+through a wall. Every algorithm we cover today — BFS, DFS, Dijkstra, A* —
+will be demonstrated on a maze just like this one, once we show how to turn
+a maze into a graph.</p></aside>
+</section>
+<section>
+  <h2>Abstraction of a planning problem</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">State s_t ∈ S — everything needed to predict the future (Markov property), e.g. (x, y), or (x, y, θ) if orientation matters</li>
+      <li class="fragment">Action space U(s) — the choices available at a state, e.g. up/down/left/right = {(0,-1), (0,1), (1,0), (-1,0)}</li>
+      <li class="fragment">Transition function s_{t+1} = f(s_t, u_t) — e.g. s_{t+1} = s_t + u_t. Stochastic version: P(s_{t+1} | s_t, u_t)</li>
+      <li class="fragment">Initial state s_I ∈ S, goal states s_G ⊆ S</li>
+    </ul>
+  <aside class="notes"><p>A planning problem is defined by five pieces. First, the state
+space: whatever property of the robot changes over time and captures
+everything needed for future planning — the Markov property means the state
+alone is enough, we don't need the full history. A 2D grid position (x, y) is
+the simplest example; if orientation matters — a car that has to turn before
+it can move sideways — the state becomes (x, y, theta). Something worth
+thinking about: what would the state be for a drone or a plane that can fly
+and rotate in full 3D? Second, the action space per state, the choices the
+robot can make — for grid movement that's up/down/left/right. Third, the
+state transition function, how an action changes the state — for grid
+movement that's just vector addition, s_{t+1} = s_t + u_t; when the system is
+stochastic this becomes a transition probability P(s_{t+1} | s_t, u_t), which
+in control theory is called the system dynamics. Fourth and fifth, the
+initial state and the set of goal states.</p></aside>
+</section>
+<section>
+  <h2>A Graph</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">A graph G = (V, E): a set of vertices V and a set of edges E</li>
+      <li class="fragment">Each edge e = (v_s, v_e) has a start vertex v_s = start(e) and an end vertex v_e = end(e)</li>
+      <li class="fragment">Planning → graph: vertices are states (V = S); the action space at a state is its outgoing edges; the transition function is just "follow the edge to its other end"</li>
+    </ul>
+  <aside class="notes"><p>A graph is a set of vertices V and a set of edges E, where each
+edge is an ordered pair of a start vertex and an end vertex. Any discrete
+planning problem converts into a graph search problem this way: the state
+space becomes the vertex set, V = S. The action space at a state becomes the
+set of edges leaving that vertex — U(s_t) is exactly the edges (s_t, s_j) in
+E. And the transition function becomes trivial: the next state is just
+whatever vertex is at the other end of the edge you took, s_{t+1} =
+end(u_t) where s_t = start(u_t). Once you see planning this way, "find a
+plan" becomes "find a path through a graph" — which is exactly what BFS,
+DFS, Dijkstra, and A* do.</p></aside>
+</section>
+<section>
+  <div class="kicker">CHAPTER 23, CARMEN, INTRO TO ALGORITHMS (1990)</div><h2>Representations of graphs</h2><div class="underline"></div>
+  <div class="row code-row">
+    <div class="col-code"><ul class="bullets small">
+      <li>Adjacency list — a dict mapping each node to its neighbors (most common; what we use below)</li>
+      <li>Adjacency matrix — an |V|×|V| 0/1 (or weighted) array; simple, but wastes memory on sparse graphs</li>
+      <li>Edge list — a flat list of (start, end) pairs; compact, but slow to query a node's neighbors</li>
+    </ul><pre class="code-block"><code>G_adjacency_list = {
+    1: [2, 5],           # node: list of neighbors
+    2: [1, 5, 3, 4],
+    3: [2, 4],
+    4: [2, 5, 3],
+    5: [4, 1, 2],
+}
+
+G_adjacency_matrix = np.array([
+    [0, 1, 0, 0, 1],
+    [1, 0, 1, 1, 1],
+    [0, 1, 0, 1, 0],
+    [0, 1, 1, 0, 1],
+    [1, 1, 0, 1, 0],
+])
+
+G_edge_list = [(1, 2), (1, 5), (2, 1), (2, 5), ...]</code></pre><p class="colab-note">Directed-graph version (edges only go one way) — same three representations, in the notebook.</p></div>
+    <div class="col-img"><img src="../../imgs/undirected-graph-rep.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Three standard ways to represent a graph in code, all equivalent.
+An adjacency list — a dictionary from each node to the list of its neighbors
+— is what we'll use for the rest of the lecture; Python lists here are
+arrays, not linked lists, so lookups are O(1) by key but O(n) to scan. An
+adjacency matrix is an n-by-n array where a 1 at (i, j) means an edge from i
+to j; simple, and easy to check "is there an edge?" in O(1), but wastes
+O(n^2) memory on a sparse graph. An edge list is just the flat list of
+(start, end) pairs; compact to store, but you have to scan the whole list to
+find one node's neighbors. Directed graphs use exactly these same three
+representations — the only difference is edges aren't assumed symmetric; the
+adjacency-list code for that is a two-line change and is in the notebook.</p></aside>
+</section>
+<section class="s-section" data-background-color="#141F38">
+  <div class="rule-top"></div>
+  <div class="kicker">GRAPH SEARCH ALGORITHMS</div>
+  <h1>Breadth-first search &amp; Depth-first search</h1>
+  <aside class="notes"><p>Now that we can represent a graph, let's search it. We'll start
+with the two simplest, uninformed search strategies: breadth-first search and
+depth-first search. They differ in exactly one thing — the data structure
+used for the frontier.</p></aside>
+</section>
+<section>
+  <h2>Breadth-first search (BFS)</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">“BFS expands the frontier uniformly across its breadth” — Carmen, Intro to Algorithms (1990)</li>
+      <li class="fragment">Frontier = FIFO queue: the vertex that has been waiting longest gets processed next</li>
+      <li class="fragment">Three vertex states: unseen (white), frontier (gray), processed (black)</li>
+      <li class="fragment">dist[u] = dist[m] + 1 — distance grows by exactly one hop per frontier layer</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/bfs-step-by-step.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Breadth-first search keeps track of three kinds of vertices:
+unseen (white, dist = infinity), frontier (gray, currently waiting to be
+processed) and processed/seen (black, already expanded). The frontier is a
+First-In-First-Out queue — whichever vertex has been in the frontier longest
+gets processed next. The algorithm: while the frontier isn't empty, pop the
+oldest vertex m, mark it processed, then for every unseen neighbor u of m,
+mark it as frontier, push it, and set dist[u] = dist[m] + 1. Because the
+frontier is FIFO, BFS explores the graph in layers — everything at distance k
+from the start is fully processed before anything at distance k+1 is even
+looked at. That's exactly why BFS finds the *shortest path by hop count* on
+an unweighted graph.</p></aside>
+</section>
+<section>
+  <h2>BFS implementation</h2><div class="underline"></div>
+  <pre class="code-block"><code>def bfs(graph, start):
+    seen = {start}           # seen = frontier + processed
+    frontier = Queue()       # FIFO -&gt; level-by-level order
+    dist = {start: 0}
+    frontier.put(start)
+    search_order = []
+
+    while not frontier.empty():
+        m = frontier.get()   # oldest addition, first out
+        search_order.append(m)
+        for u in graph.get(m, []):
+            if u not in seen:
+                seen.add(u)
+                frontier.put(u)
+                dist[u] = dist[m] + 1
+    return search_order, dist</code></pre><p class="colab-note">Full version with a debug trace: notebook cells 21-22.</p>
+  <aside class="notes"><p>This is the whole algorithm. seen tracks anything already in the
+frontier or already processed, so we never revisit a vertex. frontier is a
+FIFO Queue — that's the one line that makes this breadth-first rather than
+depth-first. Every neighbor discovered for the first time gets a distance one
+more than its parent. On the six-node example graph in the notebook, this
+produces the search order ['s', 'w', 'r', 't', 'x', 'v', 'u', 'y'] with
+distances growing 0, 1, 1, 2, 2, 2, 3, 3 — visibly layer by layer.</p></aside>
+</section>
+<section>
+  <h2>Depth-first search (DFS)</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">Frontier = LIFO stack: the most recently discovered vertex is explored next</li>
+      <li class="fragment">Dives down one branch as deep as possible before backtracking</li>
+      <li class="fragment">Much simpler to write recursively — the call stack *is* the LIFO frontier</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/dfs-step-by-step.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Depth-first search is identical to BFS except for one line: the
+frontier is a LIFO stack instead of a FIFO queue. That single change means
+the most recently discovered vertex is explored next, so the search dives
+down one path as far as it can before backtracking — very different
+exploration shape from BFS's uniform layer-by-layer spread. DFS is also much
+more natural to write recursively, since the function call stack already
+behaves like a LIFO frontier for free — see dfs_recursive in the notebook,
+which is about half the line count of the iterative version.</p></aside>
+</section>
+<section>
+  <h2>DFS implementation</h2><div class="underline"></div>
+  <pre class="code-block"><code>def dfs(graph, start):
+    seen = {start}
+    frontier = LifoQueue()   # LIFO -&gt; depth-first order
+    frontier.put(start)
+    search_order = []
+
+    while not frontier.empty():
+        m = frontier.get()   # most recent addition, first out
+        search_order.append(m)
+        for u in graph.get(m, []):
+            if u not in seen:
+                seen.add(u)
+                frontier.put(u)
+    return search_order</code></pre><p class="colab-note">Recursive version (dfs_recursive): notebook cells 27-29.</p>
+  <aside class="notes"><p>Same shape as bfs() — only the frontier's data structure changed,
+from Queue to LifoQueue. On the same six-node graph, DFS produces the order
+['s', 'r', 'v', 'w', 'x', 'y', 't', 'u'] — compare that to BFS's
+['s', 'w', 'r', 't', 'x', 'v', 'u', 'y'] on the exact same graph, same start
+node. Same algorithm skeleton, very different traversal.</p></aside>
+</section>
+<section class="s-demo" data-background-color="#1E8A7A">
+  <div class="kicker">LIVE DEMO</div>
+  <h2>Live demo — BFS vs. DFS search order</h2>
+  <div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets wide">
+      <li class="fragment">Run bfs(graph, 's', debug=True) and dfs(graph, 's', debug=True) on the same 6-node graph</li>
+      <li class="fragment">Watch the frontier (printed each step) grow breadth-first vs. depth-first</li>
+      <li class="fragment">Compare the two final search orders side by side</li>
+    </ul><a class="demo-link" href="https://colab.research.google.com/github/wecacuee/ECE417-F26-Mobile-Robots/blob/main/chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb" target="_blank" rel="noopener">&#9654; Open in Colab</a></div>
+    
+  </div>
+  <aside class="notes"><p>Switch to the notebook now (cells 21-29). Run both searches with
+debug=True so the frontier prints at every step. Point out how BFS's frontier
+grows wide (multiple siblings queued before any grandchild) while DFS's
+frontier stays a thin, deep stack. This is the moment to take questions on
+the difference before moving to weighted graphs.</p></aside>
+</section>
+<section>
+  <h2>Search order: BFS vs. DFS vs. Dijkstra</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">BFS — FIFO frontier → explores in order of hop count (levels)</li>
+      <li class="fragment">DFS — LIFO frontier → explores in order of discovery depth</li>
+      <li class="fragment">Dijkstra — priority-queue frontier → explores in order of path *cost*, not hop count or depth</li>
+      <li class="fragment">On an unweighted graph (every edge cost = 1), Dijkstra's order matches BFS exactly</li>
+    </ul>
+  <aside class="notes"><p>The three algorithms are really one algorithm skeleton with
+three different frontier data structures: FIFO for BFS, LIFO for DFS, and a
+min-priority-queue keyed on path cost for Dijkstra. That reframing is the
+single most important idea to take away from today — once you see it, A*
+next is just "Dijkstra's priority queue with an extra term added to the
+key". Also worth noting: if every edge has cost 1, Dijkstra reduces to
+exactly BFS, since path cost and hop count become the same thing.</p></aside>
+</section>
+<section>
+  <h2>From a maze to a graph</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">Every free (non-wall) cell becomes a vertex</li>
+      <li class="fragment">4-connected: up/down/left/right neighbors become edges (cost 1 each)</li>
+      <li class="fragment">8-connected: add the four diagonal neighbors (cost √2 each)</li>
+      <li class="fragment">Once the maze is a graph, BFS / Dijkstra / A* all run on it unchanged</li>
+    </ul>
+  <aside class="notes"><p>To run any of today's algorithms on the maze image from the
+start of the lecture, we don't need new algorithms — we just need to define
+what "graph" means for a maze. Each open cell is a vertex; a cell is
+connected to its free neighbors. The notebook's Maze class implements this
+as a get(node) method that returns the free neighbors of a cell, so it can
+be dropped straight into the same bfs()/dijkstra()/astar() functions we just
+wrote — no changes needed to the search algorithms themselves. That
+maze-to-graph plumbing (Maze, plotting, animation) is utility code, not
+algorithmic content — it's in the notebook/Colab if you want to read it.</p></aside>
+</section>
+<section class="s-section" data-background-color="#141F38">
+  <div class="rule-top"></div>
+  <div class="kicker">DIJKSTRA'S ALGORITHM</div>
+  <h1>Shortest paths on a weighted graph</h1>
+  <aside class="notes"><p>BFS and DFS both assume every edge is equally costly. Dijkstra's
+algorithm removes that assumption — edges can have arbitrary non-negative
+weights, and the algorithm still finds the minimum-cost path.</p></aside>
+</section>
+<section>
+  <h2>Dijkstra's algorithm</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">Same skeleton as BFS, but the frontier is a PriorityQueue keyed on path cost, not arrival order</li>
+      <li class="fragment">“Relaxation”: whenever a shorter path to a neighbor is found, update its distance</li>
+      <li class="fragment">Finds the minimum-cost path in a graph with non-negative edge weights</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/dijkstra-step-by-step.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Dijkstra's algorithm looks almost identical to BFS, with one
+change: the frontier is a priority queue ordered by cumulative path cost
+(node2dist), not a FIFO queue ordered by discovery time. Every time we look
+at an edge to a neighbor, we check whether going through the current node
+gives a cheaper path than whatever we'd previously found — this check-and-
+update step is called relaxation. As long as edge weights are non-negative,
+this greedy strategy is provably optimal: the first time we pop a node off
+the priority queue, we've found its true shortest distance.</p></aside>
+</section>
+<section>
+  <h2>Dijkstra implementation</h2><div class="underline"></div>
+  <pre class="code-block"><code>def dijkstra(graph, start, goal):
+    seen = {start}
+    frontier = PriorityQueue()      # ordered by dist, not arrival
+    frontier.put(PItem(0, start))
+    node2parent = {start: None}
+    node2dist = {start: 0}
+
+    while not frontier.empty():
+        m = frontier.get().node
+        if m == goal:
+            return True, node2parent, node2dist
+
+        for neighbor, edge_cost in graph.get(m, []):
+            new_dist = node2dist[m] + edge_cost
+            if neighbor not in seen or new_dist &lt; node2dist[neighbor]:
+                seen.add(neighbor)                # relax
+                node2parent[neighbor] = m
+                node2dist[neighbor] = new_dist
+                frontier.put(PItem(new_dist, neighbor))
+    return False, {}, node2dist</code></pre><p class="colab-note">Full version (in-place priority-queue updates via PItem/PriorityQueueUpdatable): notebook cells 42-43.</p>
+  <aside class="notes"><p>This is the pedagogical core of Dijkstra, simplified slightly
+from the notebook version for slide space — the notebook's version updates a
+stale priority-queue entry in place when a shorter path is relaxed after the
+node is already queued (Python's stdlib PriorityQueue can't do that
+directly, so it uses a small PriorityQueueUpdatable helper). The idea is
+identical either way: pop the cheapest frontier node, and relax every
+outgoing edge.</p></aside>
+</section>
+<section>
+  <h2>Dijkstra on an 8-connected maze</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">Diagonal moves cost √2 instead of 1 — Dijkstra correctly prefers a diagonal shortcut over two orthogonal steps</li>
+      <li class="fragment">Same dijkstra() function as the graph example — only graph.get() changed, to return 8 weighted neighbors instead of a fixed dict</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/dijkstra-8conn-small-demo.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Here Dijkstra runs on the maze from the start of the lecture,
+using an 8-connected neighborhood (MazeD/Maze8 in the notebook) so diagonal
+moves are allowed at cost sqrt(2). Nothing about dijkstra() itself changed —
+only what graph.get(node) returns. This is the payoff of the "planning is
+graph search" abstraction: the same four-line relaxation loop works on a
+hand-drawn 6-node graph and on a 40-row image-based maze.</p></aside>
+</section>
+<section class="s-demo" data-background-color="#1E8A7A">
+  <div class="kicker">LIVE DEMO</div>
+  <h2>Live demo — Dijkstra on a big maze</h2>
+  <div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets wide">
+      <li class="fragment">61×39 maze, 8-connected, start and goal on opposite sides</li>
+      <li class="fragment">Watch the frontier grow outward as an expanding cost “wavefront”</li>
+      <li class="fragment">Trace the final shortest path back through node2parent</li>
+    </ul><a class="demo-link" href="https://colab.research.google.com/github/wecacuee/ECE417-F26-Mobile-Robots/blob/main/chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb" target="_blank" rel="noopener">&#9654; Open in Colab</a></div>
+    <div class="col-img"><img src="../../imgs/dijkstra-path-result.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Switch to the notebook (cells 44-48) for the full-size maze
+demo. The animation shows the frontier expanding roughly circularly (by
+cost, not by hop count) until it reaches the goal — a good visual for why
+Dijkstra explores in every direction equally, which motivates the next
+section: A* uses a heuristic to bias that expansion toward the goal instead
+of wasting time exploring away from it.</p></aside>
+</section>
+<section class="s-section" data-background-color="#141F38">
+  <div class="rule-top"></div>
+  <div class="kicker">COMPUTATIONAL COMPLEXITY</div>
+  <h1>Big-O notation, and how fast BFS and Dijkstra really are</h1>
+  <aside class="notes"><p>Before A*, a short detour: how do we talk precisely about how
+fast these algorithms are? That's Big-O (and Theta and Omega) notation, and
+we'll use it to derive the running time of BFS and Dijkstra.</p></aside>
+</section>
+<section>
+  <h2>Asymptotic notation</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">Θ(g(n)) — tight bound: f(n) is sandwiched between c1·g(n) and c2·g(n) for large n</li>
+      <li class="fragment">O(g(n)) — upper bound: f(n) grows no faster than c·g(n)</li>
+      <li class="fragment">Ω(g(n)) — lower bound: f(n) grows at least as fast as c·g(n)</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/bigO-notation.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Three related but distinct notations, from Chapter 23. Big-Theta
+is a two-sided, tight bound — f(n) is sandwiched between two constant
+multiples of g(n) for all sufficiently large n. Big-O is one-sided: an upper
+bound only, f(n) grows no faster than g(n) up to a constant factor. Big-Omega
+is the mirror image, a lower bound only. In casual usage people often say
+"O(n)" when they really mean the tighter "Θ(n)" — worth being precise about
+which one you actually mean when analyzing an algorithm.</p></aside>
+</section>
+<section>
+  <h2>Complexity of BFS</h2><div class="underline"></div>
+  <pre class="code-block"><code>def bfs_barebones(graph, start):
+    seen = {start}                          # O(1)
+    frontier = Queue()                      # O(1)
+    frontier.put(start)                     # O(1)
+
+    while not frontier.empty():             # O(|V|) iterations
+        m = frontier.get()                  # O(|V| * 1)
+        for neighbor in graph.get(m, []):   # O(|V| * |E|/|V|) = O(|E|)
+            if neighbor not in seen:        # O(|E| * 1)
+                seen.add(neighbor)          # O(|E| * 1)
+                frontier.put(neighbor)      # O(|E| * 1)
+
+# Total: O(|V| + |E|)</code></pre>
+  <aside class="notes"><p>Line-by-line: the while loop runs once per vertex, O(|V|)
+iterations. The inner for-loop, summed *across all iterations of the outer
+loop*, touches each edge at most once — so summed over the whole run it's
+O(|E|), not O(|V| * |E|). Set membership/insertion are O(1) on average. Add
+it up: O(|V| + |E|) total — linear in the size of the graph, which is why
+BFS is considered a very efficient algorithm.</p></aside>
+</section>
+<section>
+  <h2>Complexity of Dijkstra</h2><div class="underline"></div>
+  <pre class="code-block"><code>def dijkstra_barebones(graph, start):
+    seen = {start}
+    frontier = PriorityQueue()
+    frontier.put(PItem(0, start))
+    node2dist = {start: 0}
+
+    while not frontier.empty():
+        m = frontier.get()                       # O(|V| log|V|) total (heap)
+        for neighbor, w in graph.get(m, []):      # O(|E|) total
+            if neighbor not in seen:
+                seen.add(neighbor)
+                frontier.put(PItem(node2dist[m]+w, neighbor))  # O(|E| log|V|)
+                node2dist[neighbor] = node2dist[m] + w
+
+# Total: O(|V| log|V| + |E| log|V|) = O(|E| log|V|) with a binary heap
+# O(|V| log|V| + |E|) with a Fibonacci heap</code></pre>
+  <aside class="notes"><p>Same skeleton as BFS, but now every priority-queue get() and
+put() costs O(log|V|) instead of O(1), because a binary heap has to sift the
+new smallest element to the top. Summed over the run: O(|V| log|V|) for the
+gets, O(|E| log|V|) for the puts — combined, O(|E| log|V|), since |E| &gt;=
+|V|-1 for a connected graph. A Fibonacci heap can do the decrease-key
+operation in amortized O(1), improving this to O(|V| log|V| + |E|) — better
+for very dense graphs, but rarely used in practice because of a large
+constant factor.</p></aside>
+</section>
+<section>
+  <div class="kicker">CHAPTER 7, CARMEN, INTRO TO ALGORITHMS (1990)</div><h2>PriorityQueue (Heaps)</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">H[Parent(i)] ≥ H[i] — the max-heap property</li>
+      <li class="fragment">Parent(i) = ceil(i/2), LeftChild(i) = 2i, RightChild(i) = 2i+1</li>
+      <li class="fragment">A binary heap gives O(log n) insert / extract-max, and O(1) peek</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/heap.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>A heap is a nearly-complete binary tree stored flat in an array,
+with the heap property: every parent is at least as large as its children
+(for a max-heap; flip the inequality for a min-heap, which is what a
+priority queue keyed on distance actually needs). The parent/child index
+arithmetic — parent = ceil(i/2), children = 2i and 2i+1 — is what lets a heap
+live in a plain array with no pointers. This is exactly the data structure
+Python's queue.PriorityQueue uses internally, and it's why priority-queue
+operations cost O(log n) instead of O(n).</p></aside>
+</section>
+<section>
+  <div class="kicker">CHAPTER 7, CARMEN, INTRO TO ALGORITHMS (1990)</div><h2>Heapify → Insert → Extract-Max</h2><div class="underline"></div>
+  <div class="gallery-row"><div class="gallery-card">
+        <img src="../../imgs/heapify.png" alt="">
+        <div class="gallery-caption">Heapify: sift a node down until the heap property holds</div>
+      </div><div class="gallery-card">
+        <img src="../../imgs/heapify-pseudocode.png" alt="">
+        <div class="gallery-caption">Heapify — pseudocode</div>
+      </div><div class="gallery-card">
+        <img src="../../imgs/heap-insert.png" alt="">
+        <div class="gallery-caption">Insert: append, then sift up</div>
+      </div><div class="gallery-card">
+        <img src="../../imgs/heap-extract-max.png" alt="">
+        <div class="gallery-caption">Extract-max: swap root with last, pop, heapify</div>
+      </div></div>
+  <aside class="notes"><p>The three operations that keep a heap valid. Heapify repairs a
+single violation by sifting a node down past its larger child, recursively,
+until the property holds again — that's the O(log n) at the core of every
+other operation. Insert appends the new element at the end of the array
+(keeping it a complete tree), then sifts it *up* past any smaller parent.
+Extract-max swaps the root with the last element, removes what is now the
+last element (the old max), and heapifies from the root to restore the
+property. Every one of these does at most O(log n) swaps, since a heap's
+height is O(log n) by construction.</p></aside>
+</section>
+<section>
+  <div class="kicker">CHAPTER 7, CARMEN, INTRO TO ALGORITHMS (1990)</div><h2>Heap runtimes</h2><div class="underline"></div>
+  <div class="full-img-wrap"><img src="../../imgs/heap-runtimes.png" alt=""></div>
+  <p class="caption">Build-heap is O(n), not O(n log n) — the sum telescopes because most nodes are near the bottom, already almost-valid.</p>
+  <aside class="notes"><p>A summary table of heap operation costs. The one that surprises
+people: building a heap from n arbitrary elements is O(n), not O(n log n) —
+even though each heapify call is O(log n) and you might call it n times, the
+sum telescopes because the vast majority of nodes are near the bottom of the
+tree, where a heapify call only costs O(1) or O(2), not O(log n). Insert and
+extract-max/extract-min are each O(log n); peek at the min/max is O(1).</p></aside>
+</section>
+<section class="s-section" data-background-color="#141F38">
+  <div class="rule-top"></div>
+  <div class="kicker">A* ALGORITHM</div>
+  <h1>Dijkstra + a heuristic</h1>
+  <aside class="notes"><p>Required reading: section 3.5.2 of Russell &amp; Norvig. A* is the
+single most important algorithm in this lecture for robotics — it's the one
+you'll actually reach for in a real planner.</p></aside>
+</section>
+<section>
+  <div class="kicker">RUSSELL &amp; NORVIG, ARTIFICIAL INTELLIGENCE, §3.5.2 — ROMANIA MAP FIGURE</div><h2>A* search</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">Priority = g(n) + h(n): cost-so-far, plus a heuristic estimate of cost-to-goal</li>
+      <li class="fragment">Identical to Dijkstra, except the priority-queue key gets the extra + h(n) term</li>
+      <li class="fragment">The heuristic biases the search toward the goal instead of expanding equally in every direction</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/romania-nodes.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>A* is Dijkstra with one addition: instead of ordering the
+frontier purely by cost-so-far g(n), it orders by g(n) + h(n), where h(n) is
+a heuristic estimate of the remaining cost to the goal. The classic textbook
+example (Russell &amp; Norvig) is finding a route across this map of Romania,
+using straight-line distance to Bucharest as h(n). The heuristic doesn't
+change correctness (under conditions we'll cover next) — it changes *which
+order* nodes get explored in, biasing the search toward the goal instead of
+Dijkstra's uniform circular expansion.</p></aside>
+</section>
+<section>
+  <h2>A* implementation</h2><div class="underline"></div>
+  <pre class="code-block"><code>def astar(graph, h, start, goal):
+    seen = {start}
+    frontier = PriorityQueue()          # ordered by g(n) + h(n)
+    frontier.put(PItem(h(start, goal), start))
+    node2parent = {start: None}
+    node2dist = {start: 0}              # g(n): cost-so-far
+
+    while not frontier.empty():
+        m = frontier.get().node
+        if m == goal:
+            return True, node2parent, node2dist
+
+        for neighbor, edge_cost in graph.get(m, []):
+            new_dist = node2dist[m] + edge_cost
+            if neighbor not in seen or new_dist &lt; node2dist[neighbor]:
+                seen.add(neighbor)
+                node2parent[neighbor] = m
+                node2dist[neighbor] = new_dist
+                priority = new_dist + h(neighbor, goal)  # &lt;- only diff vs. Dijkstra
+                frontier.put(PItem(priority, neighbor))
+    return False, {}, node2dist</code></pre><p class="colab-note">Full version + Euclidean heuristic: notebook cells 64-65.</p>
+  <aside class="notes"><p>Diff this against the dijkstra() slide from earlier — every line
+is identical except the priority put into the frontier gets + h(neighbor,
+goal) added. That's the entire algorithmic difference between Dijkstra and
+A*. The heuristic used in the notebook is Euclidean distance to the goal,
+optionally scaled: euclidean_heurist_dist(node, goal, scale).</p></aside>
+</section>
+<section>
+  <h2>Admissibility and consistency of h(n)</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">Admissible: h(n) never overestimates the true cost to the goal</li>
+      <li class="fragment">Consistent (triangle inequality): h(s_t) ≤ c(s_t, s_{t+1}) + h(s_{t+1})</li>
+      <li class="fragment">Consistent ⟹ admissible; A* with a consistent heuristic is guaranteed to find the optimal path</li>
+    </ul>
+  <aside class="notes"><p>Two conditions on the heuristic, from weakest to strongest. A
+heuristic is admissible if it never overestimates the true remaining cost —
+this alone is enough to guarantee A* finds an optimal path when a node is
+first *expanded* off the goal, but with re-expansions possible. A heuristic
+is consistent if it satisfies a triangle-inequality-like condition: the
+estimated cost from a state is never more than one edge's real cost plus the
+estimate from the state on the other side of that edge. Consistency is
+strictly stronger than admissibility, and it's the condition that gives you
+the clean guarantee we rely on in practice: the first time A* pops a node off
+the frontier, its distance is already final, exactly like Dijkstra.</p></aside>
+</section>
+<section class="s-demo" data-background-color="#1E8A7A">
+  <div class="kicker">LIVE DEMO</div>
+  <h2>Live demo — A* with different heuristic weights</h2>
+  <div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets wide">
+      <li class="fragment">scale = 0  →  h(n) = 0 everywhere  →  A* becomes exactly Dijkstra (circular expansion)</li>
+      <li class="fragment">scale = 0.1  →  weak heuristic  →  mild bias toward the goal</li>
+      <li class="fragment">scale = 1.0  →  full Euclidean distance  →  narrow, goal-directed search cone</li>
+      <li class="fragment">Compare how many nodes each setting expands before reaching the goal</li>
+    </ul><a class="demo-link" href="https://colab.research.google.com/github/wecacuee/ECE417-F26-Mobile-Robots/blob/main/chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb" target="_blank" rel="noopener">&#9654; Open in Colab</a></div>
+    <div class="col-img"><img src="../../imgs/astar-demo-euclidean.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Switch to the notebook (cells 66-71) — it runs A* on the same
+maze three times with heuristic scale 0, 0.1, and 1.0, so you can watch the
+explored region (shown in cyan) shrink from Dijkstra's full circle down to a
+narrow cone pointed straight at the goal. This is the most convincing
+"why does A* matter" demo in the whole lecture — leave time for it.</p></aside>
+</section>
+<section>
+  <h2>From continuous space to a graph</h2><div class="underline"></div>
+  <ul class="bullets wide">
+      <li class="fragment">Grids and mazes: cells → vertices, adjacency → edges (what we've been doing all lecture)</li>
+      <li class="fragment">Two-step recipe for a general continuous space: (1) build a graph over the space, (2) run A*/Dijkstra on that graph</li>
+    </ul>
+  <aside class="notes"><p>Everything so far assumed a grid or a maze, where "turn it into
+a graph" was obvious: one vertex per free cell. The general recipe for any
+continuous space is the same two steps in the abstract: first turn the
+space into a graph somehow, then run exactly the same search algorithms
+we've already built on it. The next two slides cover two different ways to
+do step one, depending on what you know about the obstacles.</p></aside>
+</section>
+<section>
+  <h2>Continuous space → graph: polygon obstacles</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">If obstacles are convex polygons: use their corners as graph vertices</li>
+      <li class="fragment">Add an edge between two corners only if the straight segment between them stays entirely outside every obstacle</li>
+      <li class="fragment">Convex polygon: any segment between two of its vertices lies entirely inside the polygon</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/polygon-obstacles.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>When obstacles are convex polygons, there's a clean way to build
+the graph: the vertices are the polygon corners (plus start and goal), and
+you connect two corners with an edge exactly when the straight line segment
+between them doesn't pass through any obstacle. This is sometimes called a
+visibility graph. It relies on convexity — a polygon where every segment
+between two of its own vertices stays inside the polygon — which is what
+makes "corners are enough" a valid simplification; you don't need to sample
+along the polygon's edges, just its vertices.</p></aside>
+</section>
+<section>
+  <h2>Sampling-based planning: RRT</h2><div class="underline"></div>
+  <div class="row">
+    <div class="col-text"><ul class="bullets">
+      <li class="fragment">No polygon obstacles? Only a point-in-obstacle test → need a sampling-based method</li>
+      <li class="fragment">Rapidly-exploring Random Trees (RRT), RRT*, PRM (Probabilistic Roadmaps)</li>
+      <li class="fragment">Build the graph by randomly sampling points and connecting nearby, collision-free ones — next lecture</li>
+    </ul></div>
+    <div class="col-img"><img src="../../imgs/RRT-vis.png" alt=""></div>
+  </div>
+  <aside class="notes"><p>Sometimes you don't have an explicit polygon description of the
+obstacles — only a black-box collision-check function that tells you if one
+point is free or not. Corners-as-vertices doesn't work anymore, since there
+are no corners to use. This is exactly the setting for sampling-based
+planners: RRT, RRT*, and probabilistic roadmaps (PRM) all build a graph by
+randomly sampling points in the free space and connecting nearby ones with a
+local collision-checked edge. That's the subject of the next lecture, with
+its own notebook (RRT.ipynb / RRTstar.ipynb / PRM.ipynb) in this repo.</p></aside>
+</section>
+<section class="s-title" data-background-color="#141F38">
+  <h1>Next up: RRT, RRT*, PRM</h1>
+  <p class="subtitle">Sampling-based planning for continuous spaces</p>
+  <div class="rule"></div>
+  <p class="footer-line">Vikas Dhiman  –  vikas.dhiman@maine.edu  –  ECE 417, University of Maine</p>
+  <aside class="notes"><p>That's discrete planning. Next lecture picks up exactly where we
+left off — sampling-based planning for spaces without explicit polygon
+obstacles, in RRT.ipynb, RRTstar.ipynb, and PRM.ipynb. Questions?</p></aside>
+</section>
+  </div>
+</div>
+<script src="vendor/reveal/reveal.js"></script>
+<script src="vendor/reveal/plugin/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1280,
+    height: 720,
+    margin: 0.06,
+    center : true,
+    progress: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+	plugins: [ RevealNotes ],
+  }).then(() => {
+    // Videos on a "videos" slide are revealed one at a time as fragments
+    // (data-autoplay on <video>, class="fragment" on the card). Reveal.js
+    // core already autoplays a fragment's video once it becomes visible and
+    // pauses it when it's hidden again (stepping backward) -- see
+    // js/controllers/fragments.js + slidecontent.js's startEmbeddedContent/
+    // stopEmbeddedContent. What's not built in is enforcing "just one plays
+    // at a time": whenever a video fragment appears, pause every other
+    // video. Re-entering a slide backward (Reveal.prev() from the *next*
+    // slide) marks all of that slide's fragments visible in one shot rather
+    // than firing fragmentshown per-fragment, so it needs its own handler:
+    // keep only the last (highest-index) visible fragment's video playing.
+    const pauseAllBut = keep => document.querySelectorAll('.reveal video').forEach(v => {
+      if (v !== keep) v.pause();
+    });
+
+    Reveal.on('fragmentshown', event => {
+      const shown = event.fragment.matches('video') ? event.fragment
+                    : event.fragment.querySelector('video');
+      if (shown) pauseAllBut(shown);
+    });
+
+    Reveal.on('slidechanged', event => {
+      setTimeout(() => {
+        const visible = Array.from(event.currentSlide.querySelectorAll('.fragment.visible'));
+        const last = visible[visible.length - 1];
+        const video = last && (last.matches('video') ? last : last.querySelector('video'));
+        if (video) pauseAllBut(video);
+      }, 0);
+    });
+  });
+</script>
+</body>
+</html>
