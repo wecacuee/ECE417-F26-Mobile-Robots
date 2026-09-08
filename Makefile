@@ -1,10 +1,14 @@
-QUIZ_MDS := $(wildcard notebooks/*/quiz_*.md)
+QUIZ_MDS := $(wildcard chapters/*/quiz_*.md)
 QUIZ_ZIPS := $(QUIZ_MDS:.md=.zip)
 
 all: \
 	build-html/01-19-intro-to-robotics.html \
 	build-html/Python_3.html \
 	build-html/ways-to-run-python.html \
+	build-html/DiscretePlanning.html \
+	build-pdf/DiscretePlanning.pdf \
+	chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb \
+	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
 	$(QUIZ_ZIPS)
 
 .SECONDARY:
@@ -13,25 +17,39 @@ all: \
 build-html/01-19-intro-to-robotics.html: chapters/00-intro/01-19-intro-to-robotics.md
 	pandoc -f markdown -t html "$<" -o "$@"
 
+build-html/%.html: chapters/01-1901-discrete-planning/%.ipynb
+	jupyter nbconvert --to html --embed-images \
+		--theme jupyterlab-theme-githublight \
+    	--config ./nbconvert_config.py \
+        --output-dir "$(@D)" --output "$(basename $(@F))" "$<"
+
 build-html/%.html: chapters/01-py-intro/%.ipynb
 	jupyter nbconvert --to html --embed-images \
 		--theme jupyterlab-theme-githublight \
     	--config ./nbconvert_config.py \
         --output-dir "$(@D)" --output "$(basename $(@F))" "$<"
 
+chapters/01-1901-discrete-planning/exports-%Colab.ipynb: chapters/01-1901-discrete-planning/%.ipynb
+	python3 scripts/export_ipynb_to_colab.py $<
 
-notebooks/045-layers-blocks-models/exports-%Colab.ipynb: notebooks/045-layers-blocks-models/%.ipynb
+chapters/045-layers-blocks-models/exports-%Colab.ipynb: chapters/045-layers-blocks-models/%.ipynb
 	python3 scripts/export_ipynb_to_colab.py $<
 
 ####################################################3
 
-build-html/%.html: notebooks/045-layers-blocks-models/exports-%Colab.ipynb
+build-pdf/%.pdf: chapters/01-1901-discrete-planning/exports-%Colab.ipynb
+	jupyter nbconvert --to webpdf --embed-images \
+		--theme jupyterlab-theme-githublight \
+    	--config ./nbconvert_config.py \
+        --output-dir "$(@D)" --output "$(basename $(@F))" "$<"
+
+build-html/%.html: chapters/045-layers-blocks-models/exports-%Colab.ipynb
 	jupyter nbconvert --to html --embed-images \
 		--theme jupyterlab-theme-githublight \
     	--config ./nbconvert_config.py \
         --output-dir "$(@D)" --output "$(basename $(@F))" "$<"
 
-build-pdf/%.pdf: notebooks/045-layers-blocks-models/exports-%Colab.ipynb
+build-pdf/%.pdf: chapters/045-layers-blocks-models/exports-%Colab.ipynb
 	jupyter nbconvert --to webpdf --embed-images \
 		--theme jupyterlab-theme-githublight \
     	--config ./nbconvert_config.py \
