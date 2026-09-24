@@ -7,7 +7,14 @@ all: \
 	build-html/ways-to-run-python.html \
 	build-html/DiscretePlanning.html \
 	build-pdf/DiscretePlanning.pdf \
+	build-html/PRM.html \
+	build-pdf/PRM.pdf \
+	build-html/RRT.html \
+	build-pdf/RRT.pdf \
 	chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb \
+	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
+	chapters/01-1901-discrete-planning/exports-RRT.ipynb \
+	chapters/01-1901-discrete-planning/exports-PRM.ipynb \
 	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
 	chapters/01-1901-discrete-planning/exports/DiscretePlanning.pptx \
 	$(QUIZ_ZIPS)
