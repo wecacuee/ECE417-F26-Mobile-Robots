@@ -11,10 +11,11 @@ all: \
 	build-pdf/PRM.pdf \
 	build-html/RRT.html \
 	build-pdf/RRT.pdf \
+	hw/mt1/exports-UMainePlanningColab.ipynb \
 	chapters/01-1901-discrete-planning/exports-DiscretePlanningColab.ipynb \
 	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
-	chapters/01-1901-discrete-planning/exports-RRT.ipynb \
-	chapters/01-1901-discrete-planning/exports-PRM.ipynb \
+	chapters/01-1901-discrete-planning/exports-RRTColab.ipynb \
+	chapters/01-1901-discrete-planning/exports-PRMColab.ipynb \
 	chapters/01-1901-discrete-planning/DiscretePlanning.ipynb \
 	chapters/01-1901-discrete-planning/exports/DiscretePlanning.pptx \
 	$(QUIZ_ZIPS)
@@ -36,6 +37,9 @@ build-html/%.html: chapters/01-py-intro/%.ipynb
 		--theme jupyterlab-theme-githublight \
     	--config ./nbconvert_config.py \
         --output-dir "$(@D)" --output "$(basename $(@F))" "$<"
+
+hw/mt1/exports-%Colab.ipynb: hw/mt1/%.ipynb
+	python3 scripts/export_ipynb_to_colab.py $<
 
 chapters/01-1901-discrete-planning/exports-%Colab.ipynb: chapters/01-1901-discrete-planning/%.ipynb
 	python3 scripts/export_ipynb_to_colab.py $<
